@@ -1,5 +1,4 @@
 #include "functions.hpp"
-#define DEBUG false // turn debug message on or off in serial
 
 void setup()
 {
@@ -11,11 +10,11 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
 
-  sendData("AT+RST\r\n", 2000, DEBUG);            // reset module
-  sendData("AT+CWMODE=1\r\n", 1000, DEBUG);       // configure as access point
-  sendData("AT+CIFSR\r\n", 1000, DEBUG);          // get ip address //192.168.4.1
-  sendData("AT+CIPMUX=1\r\n", 1000, DEBUG);       // configure for multiple connections
-  sendData("AT+CIPSERVER=1,80\r\n", 1000, DEBUG); // turn on server on port 80
+  sendData("AT+RST\r\n", 2000);            // reset module
+  sendData("AT+CWMODE=1\r\n", 1000);       // configure as access point
+  sendData("AT+CIFSR\r\n", 1000);          // get ip address //192.168.4.1
+  sendData("AT+CIPMUX=1\r\n", 1000);       // configure for multiple connections
+  sendData("AT+CIPSERVER=1,80\r\n", 1000); // turn on server on port 80
 }
 
 void loop()
@@ -41,7 +40,7 @@ void loop()
       closeCommand += connectionId; // append connection id
       closeCommand += "\r\n";
 
-      sendData(closeCommand, 1000, DEBUG); // close connection
+      sendData(closeCommand, 1000); // close connection
     }
   }
 }

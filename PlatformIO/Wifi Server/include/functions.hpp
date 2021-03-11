@@ -1,5 +1,6 @@
 #include <SoftwareSerial.h>
 #include <Arduino.h>
+#define DEBUG true // turn debug message on or off in serial
 
 SoftwareSerial esp8266(4, 5);
 
@@ -9,7 +10,7 @@ SoftwareSerial esp8266(4, 5);
 * Params: command - the data/command to send; timeout - the time to wait for a response; debug - print to Serial window?(true = yes, false = no)
 * Returns: The response from the esp8266 (if there is a reponse)
 */
-String sendData(String command, const int timeout, bool debug)
+String sendData(String command, const int timeout)
 {
   String response = "";
 
@@ -28,7 +29,7 @@ String sendData(String command, const int timeout, bool debug)
     }
   }
 
-  if (debug)
+  if (DEBUG)
   {
     Serial.print(response);
   }
