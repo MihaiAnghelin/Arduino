@@ -1,80 +1,64 @@
 #include <Arduino.h>
 
-/*
-  Button
+const int buttonPin1 = 2; // the number of the pushbutton pin
+const int ledPin1 = 7;	  // the number of the LED pin
 
-  Turns on and off a light emitting diode(LED) connected to digital pin 13,
-  when pressing a pushbutton attached to pin 2.
+// const int buttonPin2 = 12;
+// const int ledPin2 = 6;
 
-  The circuit:
-  - LED attached from pin 13 to ground
-  - pushbutton attached to pin 2 from +5V
-  - 10K resistor attached to pin 2 from ground
+int reading2 = 0;
 
-  - Note: on most Arduinos there is already an LED on the board
-    attached to pin 13.
+int state = HIGH;	// the current state of the output pin
+int reading = 0;	// the current reading from the input pin
+int previous = LOW; // the previous reading from the input pin
 
-  created 2005
-  by DojoDave <http://www.0j0.org>
-  modified 30 Aug 2011
-  by Tom Igoe
-
-  This example code is in the public domain.
-
-  http://www.arduino.cc/en/Tutorial/Button
-*/
-
-// constants won't change. They're used here to set pin numbers:
-const int buttonPin = 2; // the number of the pushbutton pin
-const int ledPin = 13;   // the number of the LED pin
-
-// variables will change:
-int buttonState = 0; // variable for reading the pushbutton status
+long time = 0;		 // the last time the output pin was toggled
+long debounce = 500; // the debounce time, increase if the output flickers
 
 void setup()
 {
-  // initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);
-  // initialize the pushbutton pin as an input:
-  pinMode(buttonPin, INPUT);
+	pinMode(ledPin1, OUTPUT);
+	// pinMode(ledPin2, OUTPUT);
+	pinMode(buttonPin1, INPUT);
+	// pinMode(buttonPin2, INPUT);
 }
-
-bool on = true;
-int reading;
-int previous = LOW;
-int state = HIGH;
-long time = 0;
-long debounce = 200;
 
 void loop()
 {
-  // reading = digitalRead(buttonPin);
+	reading = digitalRead(buttonPin1);
 
-  // // if the input just went from LOW and HIGH and we've waited long enough
-  // // to ignore any noise on the circuit, toggle the output pin and remember
-  // // the time
-  // if (reading == HIGH && previous == LOW && millis() - time > debounce)
-  // {
-  //   if (state == HIGH)
-  //     state = LOW;
-  //   else
-  //     state = HIGH;
+	// if the input just went from LOW and HIGH and we've waited long enough
+	// to ignore any noise on the circuit, toggle the output pin and remember
+	// the time
+	if (reading == LOW && previous == HIGH && millis() - time > debounce)
+	{
+		if (state == LOW)
+			state = HIGH;
+		else
+			state = LOW;
+		time = millis();
+	}
+	digitalWrite(ledPin1, state);
 
-  //   time = millis();
-  // }
+	previous = reading;
 
-  // digitalWrite(ledPin, state);
+	// if (reading == LOW)
+	// {
+	// 	digitalWrite(ledPin1, HIGH);
+	// }
+	// else
+	// {
+	// 	digitalWrite(ledPin1, LOW);
+	// }
 
-  // previous = reading;
+	// reading2 = digitalRead(buttonPin2);
 
-  buttonState = digitalRead(buttonPin);
-
-  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
-  if (buttonState == HIGH) {
-    // turn LED on:
-    digitalWrite(ledPin, HIGH);
-  } else {
-    // turn LED off:
-    digitalWrite(ledPin, LOW);
-  }
+	// if (reading2 == LOW)
+	// {
+	// 	digitalWrite(ledPin2, HIGH);
+	// }
+	// else
+	// {
+	// 	digitalWrite(ledPin2, LOW);
+	// }
 }
